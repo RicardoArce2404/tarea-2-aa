@@ -16,11 +16,13 @@ def index():
 @socketio.on('start_test')
 def start_test():
     print('Test started')
-    for i in range(10):
-        eventlet.sleep(1) # IMPORTANT! we use eventlet.sleep instead of time.sleep!!
+    for i in range(1000):
         random_number = randint(1, 100)
         print('Random number:', random_number)
         socketio.emit('new_number', random_number)
+        # IMPORTANT! we need to sleep for a while to allow the server to handle other requests
+        # if we don't do this, the server will be busy with this loop and won't be able to handle other requests
+        eventlet.sleep(0.2) # this can even be 0, but it's better to have a slighty bigger value
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
