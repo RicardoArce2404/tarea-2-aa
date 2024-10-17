@@ -1,4 +1,6 @@
 from random import choice, randint
+from app import socketio
+import eventlet
 
 # Every individual is a list of booleans representing which items of the
 # number set it includes. This facilitates mutation and breeding.
@@ -61,11 +63,14 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
     population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
 
     best_individual: Individual = []
-    for _ in range(GENERATIONS):
+    for current_generation in range(GENERATIONS):
         population = get_new_generation(population[0], population[1], POPULATION_SIZE)
         population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
         best_individual = population[0]
         best_fitness: int = get_fitness(number_set, best_individual, limit)
+        socketio.emit('update-state', (current_generation, best_individual, best_fitness))
+        eventlet.sleep(0.05)
+        
         if best_fitness == limit:
             break
 
