@@ -12,14 +12,21 @@ const startButton = document.getElementById('start-button');
 startAlgorithm = () => {
     startButton.disabled = true;
     limit = limitInput.value;
+    validInput = true
     if (limit == '') {
         alert('Por favor ingrese un número');
-        return;
+        validInput = false
     } else if (isNaN(limit)) {
         alert('Por favor ingrese un número válido');
-        return;
+        validInput = false
+    } else if (parseInt(limit) < 1) {
+        alert('Por favor ingrese un número mayor a 0');
+        validInput = false
     }
-    socket.emit('start', limit);
+    if (validInput) {
+        socket.emit('start', limit);
+    }
+    startButton.disabled = false;
 };
 
 socket.on('connect', () => {
