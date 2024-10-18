@@ -4,7 +4,6 @@ import eventlet
 
 # Every individual is a list of booleans representing which items of the
 # number set it includes. This facilitates mutation and breeding.
-
 Individual = list[bool]
 
 def get_fitness(number_set: list[int], individual: Individual, limit: int) -> int:
@@ -18,13 +17,18 @@ def get_fitness(number_set: list[int], individual: Individual, limit: int) -> in
         if chromosome == True:
             fitness += number_set[index]
     if fitness > limit:
-        return 0  # Easy penalization technique but not ideal. May be changed.
+        # The excess is subtracted from the limit.
+        # For example, if the limit is 10 and the total sum (T) is 13, then the
+        # fitness (F) is 10 - (13 - 10) = 7.
+        # |---------|---------|
+        # 0      F  L  T      20
+        fitness = 2 * limit - fitness  # Simplified version of L = L - (F - L)
     return fitness
 
 def mutate(individual: Individual) -> None:
     """
     Mutates and individual by interchanging the truth value of its
-    chromosomes between True and False with a 25% probability.
+    chromosomes between True and False with a 10% probability.
     """
 
     probability: int = 10
@@ -44,7 +48,7 @@ def get_new_generation(parent1: Individual, parent2: Individual, amount: int) ->
     new_generation: list[Individual] = []
     for _ in range(amount - 2):
         child: Individual = [choice([parent1[i], parent2[i]]) for i in range(length)]
-        mutate(child)
+        mutate(child)  # This does an in-place mutation
         new_generation.append(child)
 
     # Parents are appended in case all children are born with not helpfull mutations
@@ -58,16 +62,18 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
     given number set that maximizes its total value without exceding the given limit
     """
 
-    POPULATION_SIZE: int = 5 # i put it to 5 for it to converge slower
+    POPULATION_SIZE: int = 10
     GENERATIONS: int = 100
     population: list[Individual] = []
 
-    for _ in range(POPULATION_SIZE):
+    for _ in range(POPULATION_SIZE):  # This generates the initial generation
         population.append([choice([True, False]) for _ in range(len(number_set))])
     population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
 
     best_individual: Individual = []
     for current_generation in range(GENERATIONS):
+        # The population was previously sorted by fitness, so population[0] and population[1]
+        # are the most fitness individuals and, therefore, are used as parents.
         population = get_new_generation(population[0], population[1], POPULATION_SIZE)
         population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
         best_individual = population[0]
@@ -81,16 +87,9 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
         if best_fitness == limit:
             break
 
-    solution: list[int] = []
-    for i in range(len(number_set)):
-        if best_individual[i] == True:
-            solution.append(number_set[i])
-    return solution
-
 def get_individual_representation(number_set: list[int], individual) -> list[int]:
     """
-    Returns a list of integers that is the best choice of the elements of the
-    given number set that maximizes its total value without exceding the given limit
+    Returns the list of integers that a given individual represents in a number set.
     """
 
     solution: list[int] = []
