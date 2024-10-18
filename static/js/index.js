@@ -25,8 +25,8 @@ socket.on('connect', () => {
 });
 
 socket.on('update-state', (args) => {
-    setSpan.innerHTML = args.set;
+    setSpan.innerHTML = `{${args.set}}`;
     generationSpan.innerHTML = args.generation;
-    bestSetSpan.innerHTML = args.solution;
+    bestSetSpan.innerHTML = `{${args.solution}}`;
     bestSum.innerHTML = '+' + args.sum;
 });
