@@ -4,13 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genetic algorithm</title>
-    <link rel="icon" type="image/svg+xml" href="/static/assets/genetic-icon.svg">
-    <script src="/static/css/index.css" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/index.css") }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename="assets/genetic-icon.svg") }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-    <script src="/static/js/index.js" defer></script>
+    <script src="{{ url_for('static', filename="js/index.js") }}" defer></script>
 </head>
 <body>
-    <h1>Genetic algorithm app</h1>
-    <button id="start" onclick="startTest()">Start</button>
+  <div class="container">
+    <div class="header">
+      <img class="header-img" src="{{ url_for('static', filename="assets/genetic-icon.svg") }}" alt="Genetic algorithm icon">
+      <h1>Algoritmo genetico</h1>
+      <p>Dado un conjunto de números enteros,</br> 
+        maximizar la suma de subconjuntos cuya </br>
+        suma no exceda un valor límite L</p>
+    </div>
+    <div class="limit-select">
+      <label for="limit">Limite</label>
+      <input type="number" id="limit" name="limit" min="1" max="100000" value="100">
+      <button id="start" onclick="startAlgorithm()">Iniciar</button>
+    </div>
+    <div class="best-solution container">
+      
+      <div class="solution">
+        <p>conjunto</br>{<span id="set">...</span>}</p>
+        <p>gen <span id="generation">0</span></p>
+        <p>MEJOR SOLUCIÓN </br><span id="best-set">{...}</span></p>
+        <p><i><span id="best-sum"></span></i></p>
+      </div>
+    </div>
+  </div
 </body>
 </html>

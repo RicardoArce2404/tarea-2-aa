@@ -1,0 +1,124 @@
+@keyframes moveBackground {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.95);
+    }
+}
+
+body {
+    --background-primary: #60ccd8;
+    --background-secondary: #5fc2cd;
+
+    /* rotate background 45 degrees */
+    background-color: #e5e5f7;
+    background-image: radial-gradient(var(--background-secondary) 10px, transparent 10px), radial-gradient(var(--background-secondary) 10px, var(--background-primary) 10px);
+    background-size: 100px 100px;
+    background-position: 0 0, 20px 20px;
+    animation: moveBackground 60s linear infinite;
+
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    width: 100px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.limit-select {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333;
+    margin-top: 1rem;
+}
+
+input {
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: #bcf8ff;
+    border: none;
+    border-radius: 5px;
+}
+
+p {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+button {
+    background-color: #0f555d;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    margin-top: 5px;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #206e76;
+}
+
+button:active {
+    animation: buttonPress 0.1s ease-in-out forwards;
+}
+
+#best-set {
+    margin-top: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#best-sum {
+    margin-top: 5px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #004455;
+}
