@@ -12,7 +12,7 @@ def index():
 def start(limit):
     socketio.emit('hello-world')
     result = get_solution([randint(1, 100) for _ in range(10)], int(limit))
-    print(result)
+    socketio.emit('end')
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

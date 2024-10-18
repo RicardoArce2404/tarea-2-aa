@@ -117,6 +117,38 @@ button:active {
     animation: buttonPress 0.1s ease-in-out forwards;
 }
 
+button:disabled {
+    background-color: #646464;
+    color: #00000000;
+    cursor: not-allowed;
+    pointer-events: none;
+    position: relative;
+}
+
+button:disabled::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #00c2c9;
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    /* now our little box is a circle!! */
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
 .label-text {
     font-size: 1rem;
     font-weight: 600;

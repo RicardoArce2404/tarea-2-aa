@@ -7,8 +7,10 @@ const setSpan = document.getElementById('set');
 const generationSpan = document.getElementById('generation');
 const bestSetSpan = document.getElementById('best-set');
 const bestSum = document.getElementById('best-sum');
+const startButton = document.getElementById('start-button');
 
 startAlgorithm = () => {
+    startButton.disabled = true;
     limit = limitInput.value;
     if (limit == '') {
         alert('Por favor ingrese un número');
@@ -25,8 +27,13 @@ socket.on('connect', () => {
 });
 
 socket.on('update-state', (args) => {
+    startButton.disabled = true;
     setSpan.innerHTML = `{${args.set}}`;
     generationSpan.innerHTML = args.generation;
     bestSetSpan.innerHTML = `{${args.solution}}`;
     bestSum.innerHTML = '+' + args.sum;
+});
+
+socket.on('end', () => {
+    startButton.disabled = false;
 });
