@@ -34,10 +34,11 @@ socket.on('connect', () => {
 });
 
 socket.on('update-state', (args) => {
+    console.log(args);
     startButton.disabled = true;
-    setSpan.innerHTML = `{${args.set}}`;
+    setSpan.innerHTML = `{${args.set.join(', ')}}`;
     generationSpan.innerHTML = args.generation;
-    bestSetSpan.innerHTML = `{${args.solution}}`;
+    bestSetSpan.innerHTML = `{${args.solution.join(', ')}}`;
     bestSum.innerHTML = '+' + args.sum;
 });
 
