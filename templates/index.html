@@ -23,13 +23,15 @@
       <input type="number" id="limit" name="limit" min="1" max="100000" value="100">
       <button id="start" onclick="startAlgorithm()">Iniciar</button>
     </div>
+    <hr>
     <div class="best-solution container">
       
       <div class="solution">
-        <p>conjunto</br>{<span id="set">...</span>}</p>
-        <p>gen <span id="generation">0</span></p>
-        <p>MEJOR SOLUCIÓN </br><span id="best-set">{...}</span></p>
-        <p><i><span id="best-sum"></span></i></p>
+        <p class="label-text">conjunto</br>
+        <p id="set">{...}</p>
+        <p class="label-text">mejor solución - generación <span id="generation">0</span></p>
+        <p id="best-set">{...}</p>
+        <p id="best-sum"> </p>
       </div>
     </div>
   </div

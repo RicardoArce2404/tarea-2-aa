@@ -89,6 +89,13 @@ p {
     margin-top: 1rem;
 }
 
+hr {
+    width: 60%;
+    margin-top: 3rem;
+    border: 2px dashed #2f889e;
+    border-radius: 9999px;
+}
+
 button {
     background-color: #0f555d;
     color: #fff;
@@ -110,15 +117,40 @@ button:active {
     animation: buttonPress 0.1s ease-in-out forwards;
 }
 
+.label-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0000008a;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+#set {
+    font-family: 'Roboto Mono', monospace;
+    margin-top: 0rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #004455;
+}
+
+#generation {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #25447e;
+    margin-top: 5px;
+}
+
 #best-set {
-    margin-top: 10px;
+    font-family: 'Roboto Mono', monospace;
+    margin-top: 0;
     font-size: 2rem;
     font-weight: 700;
 }
 
 #best-sum {
-    margin-top: 5px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #004455;
+    margin-top: -1.2rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #03554e;
 }
