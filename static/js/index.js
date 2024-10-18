@@ -3,6 +3,10 @@ var socket = io();
 
 // elements
 const limitInput = document.getElementById('limit');
+const setSpan = document.getElementById('set');
+const generationSpan = document.getElementById('generation');
+const bestSetSpan = document.getElementById('best-set');
+const bestSum = document.getElementById('best-sum');
 
 startAlgorithm = () => {
     limit = limitInput.value;
@@ -14,8 +18,15 @@ startAlgorithm = () => {
         return;
     }
     socket.emit('start', limit);
-}
+};
 
-socket.on('update-state', (arg) => {
-    console.log(arg);
+socket.on('connect', () => {
+    console.log('Connected to server');
+});
+
+socket.on('update-state', (args) => {
+    setSpan.innerHTML = args.set;
+    generationSpan.innerHTML = args.generation;
+    bestSetSpan.innerHTML = args.solution;
+    bestSum.innerHTML = '+' + args.sum;
 });

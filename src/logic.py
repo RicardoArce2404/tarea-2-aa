@@ -1,5 +1,5 @@
 from random import choice, randint
-from app import socketio
+from .socketio_setup import socketio
 import eventlet
 
 # Every individual is a list of booleans representing which items of the
@@ -54,7 +54,7 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
     given number set that maximizes its total value without exceding the given limit
     """
 
-    POPULATION_SIZE: int = 20
+    POPULATION_SIZE: int = 5 # i put it to 5 for it to converge slower
     GENERATIONS: int = 100
     population: list[Individual] = []
 
@@ -68,8 +68,11 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
         population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
         best_individual = population[0]
         best_fitness: int = get_fitness(number_set, best_individual, limit)
-        socketio.emit('update-state', (current_generation, best_individual, best_fitness))
-        eventlet.sleep(0.05)
+        
+        # send updates to client
+        state_data = create_json_update(number_set ,current_generation, best_individual, best_fitness)
+        socketio.emit('update-state', state_data)
+        eventlet.sleep(0.07)
         
         if best_fitness == limit:
             break
@@ -79,6 +82,31 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
         if best_individual[i] == True:
             solution.append(number_set[i])
     return solution
+
+def get_individual_representation(number_set: list[int], individual) -> list[int]:
+    """
+    Returns a list of integers that is the best choice of the elements of the
+    given number set that maximizes its total value without exceding the given limit
+    """
+
+    solution: list[int] = []
+    for i in range(len(number_set)):
+        if individual[i] == True:
+            solution.append(number_set[i])
+    return solution
+
+def create_json_update(set: list[int], generation: int, individual: Individual, sum: int) -> dict:
+    """
+    Returns a dictionary with the information of the current generation
+    for the emit event of the socketio server.
+    """
+
+    return {
+        'set': set,
+        'generation': generation,
+        'solution': get_individual_representation(set, individual),
+        'sum': sum
+    }
 
 # number_set = [randint(1, 20) for _ in range(10)]
 # print(number_set)
