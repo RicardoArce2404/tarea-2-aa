@@ -42,10 +42,14 @@ def get_new_generation(parent1: Individual, parent2: Individual, amount: int) ->
 
     length: int = len(parent1)
     new_generation: list[Individual] = []
-    for _ in range(amount):
+    for _ in range(amount - 2):
         child: Individual = [choice([parent1[i], parent2[i]]) for i in range(length)]
         mutate(child)
         new_generation.append(child)
+
+    # Parents are appended in case all children are born with not helpfull mutations
+    new_generation.append(parent1)
+    new_generation.append(parent2)
     return new_generation
 
 def get_solution(number_set: list[int], limit: int) -> list[int]:
@@ -68,12 +72,12 @@ def get_solution(number_set: list[int], limit: int) -> list[int]:
         population.sort(key=lambda x: get_fitness(number_set, x, limit), reverse=True)
         best_individual = population[0]
         best_fitness: int = get_fitness(number_set, best_individual, limit)
-        
+
         # send updates to client
-        state_data = create_json_update(number_set ,current_generation, best_individual, best_fitness)
+        state_data = create_json_update(number_set, current_generation + 1, best_individual)
         socketio.emit('update-state', state_data)
         eventlet.sleep(0.07)
-        
+
         if best_fitness == limit:
             break
 
@@ -95,17 +99,18 @@ def get_individual_representation(number_set: list[int], individual) -> list[int
             solution.append(number_set[i])
     return solution
 
-def create_json_update(set: list[int], generation: int, individual: Individual, sum: int) -> dict:
+def create_json_update(set: list[int], generation: int, individual: Individual) -> dict:
     """
     Returns a dictionary with the information of the current generation
     for the emit event of the socketio server.
     """
 
+    solution: list[int] = get_individual_representation(set, individual)
     return {
         'set': set,
         'generation': generation,
-        'solution': get_individual_representation(set, individual),
-        'sum': sum
+        'solution': solution,
+        'sum': sum(solution)
     }
 
 # number_set = [randint(1, 20) for _ in range(10)]

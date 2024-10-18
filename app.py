@@ -11,7 +11,8 @@ def index():
 @socketio.on('start')
 def start(limit):
     socketio.emit('hello-world')
-    result = get_solution([randint(1, 100) for _ in range(10)], int(limit))
+    limit = int(limit)
+    result = get_solution([randint(1, limit) for _ in range(10)], limit)
     socketio.emit('end')
 
 if __name__ == '__main__':
