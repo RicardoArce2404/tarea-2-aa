@@ -13,7 +13,7 @@ def start(limit):
     socketio.emit('hello-world')
     try:
         limit = int(limit)
-        result = get_solution([randint(1, limit) for _ in range(10)], limit)
+        result = get_solution([randint(1, limit) for _ in range(32)], limit)
     except ValueError:
         print(f"[Log] Attempted to use a non-integer value: {limit}.")
     socketio.emit('end')
